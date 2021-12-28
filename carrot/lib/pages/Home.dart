@@ -1,15 +1,16 @@
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  _HomeState  createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-
   List<Map<String, String>> datas = [];
 
   @override
@@ -39,7 +40,7 @@ class _HomeState extends State<Home> {
       },
       {
         'image' : 'assets/images/4.png',
-        'title' : '맥북 프로 풀 박스',
+        'title' : '맥북 프로 풀 박스 안녕 ㅋㄷㅋㄷ챔픜ㄷㅋ챔프ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇ',
         'location' : '제주 제주시 아라동',
         'price' : '2500000',
         'like' : '2'
@@ -89,6 +90,12 @@ class _HomeState extends State<Home> {
     ];
   }
 
+  final oCcy = new NumberFormat('#,###', 'ko_KR');
+  String calcStringToWon(String priceString) {
+    return '${oCcy.format(int.parse(priceString))}원';
+  }
+
+
   PreferredSizeWidget _appbarWidget() {
     return AppBar(
       // leading: Text('test'),
@@ -116,51 +123,78 @@ class _HomeState extends State<Home> {
     );
   }
 
-  ListView _bodyWidget() {
+  Widget _bodyWidget() {
     return ListView.separated(
         itemBuilder: (BuildContext _context, int index) {
           return Container(
+            padding: const EdgeInsets.symmetric(vertical:10),
+            margin: const EdgeInsets.symmetric(horizontal:10),
             child: Row(
-              children: [
-                ClipRRect(
+                children: [
+                  ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                     child: Image.asset(datas[index]['image'].toString(), width:100, height:100),
-                ),
-                Container(
-                    child: Column(
-                        children: [
-                          Text(datas[index]['title'].toString(),),
-                          Text(datas[index]['location'].toString(),),
-                          Text(datas[index]['price'].toString(),),
-                          Row(
+                  ),
+                  Expanded(
+                    child: Container(
+                        height: 100,
+                        // width: MediaQuery.of(context).size.width - 100,
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SvgPicture.asset('assets/svg/heart.svg', width:13, height:13),
-                              Padding(
-                                padding: const EdgeInsets.only(left:5.0),
-                                child: Text(datas[index]['like'].toString(),),
+                              Text(datas[index]['title'].toString(),
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(fontSize: 15),
                               ),
-                            ],
-                          ),
-                        ]
-                    )
-                ),
-              ]
+                              SizedBox(height:5),
+                              Text(datas[index]['location'].toString(),
+                                  style: TextStyle(fontSize:12, color: Colors.black.withOpacity(0.3))
+                              ),
+                              SizedBox(height:5),
+                              Text(calcStringToWon(datas[index]['price'].toString()), style: TextStyle(fontWeight: FontWeight.w500)),
+                              Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      SvgPicture.asset('assets/svg/heart.svg', width:13, height:13),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left:5.0),
+                                        child: Text(datas[index]['like'].toString(),),
+                                      ),
+                                    ],
+                                  )
+
+                              ),
+                            ]
+                        )
+                    ),
+                  ),
+                ]
             ),
           );
-        },
+          },
         separatorBuilder: (BuildContext _context, int index) {
           return Container(height:1, color : Colors.black.withOpacity(0.5));
-        },
-        itemCount: 10);
+        }, itemCount: 10,);
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appbarWidget(),
       body: _bodyWidget(),
-      // bottomNavigationBar: Container(),
-
     );
   }
 }
+
+
+
+
+
+
+
