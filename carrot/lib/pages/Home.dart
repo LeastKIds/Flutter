@@ -12,10 +12,17 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Map<String, String>> datas = [];
+  late String currentLocation;
+  final Map<String, String> locationTypeToString = {
+    'ara' : '아라동',
+    'ora' : '오라동',
+    'donam' : '도남동',
+  };
 
   @override
   void initState() {
     super.initState();
+    currentLocation = 'ara';
     datas = [
       {
         'image' : 'assets/images/1.jpeg',
@@ -103,12 +110,34 @@ class _HomeState extends State<Home> {
           onTap: () {
             print('click');
           },
-          child: Row(
-              children: [
-                Text('아리동', style: TextStyle(color: Colors.black)),
-                Icon(Icons.arrow_drop_down, color:Colors.black),
-              ]
-          )
+          child: PopupMenuButton<String> (
+            offset: Offset(0,25),
+            shape: ShapeBorder.lerp(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              1
+            ),
+            onSelected: (String where) {
+              print(where);
+              setState( () {
+                currentLocation = where;
+              });
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(value: 'ara', child: Text('아라동')),
+                PopupMenuItem(value: 'ora', child: Text('오라동')),
+                PopupMenuItem(value: 'donam', child: Text('도남동'))
+              ];
+            },
+            child: Row(
+                children: [
+                  Text(locationTypeToString[currentLocation].toString(), style: TextStyle(color: Colors.black)),
+                  Icon(Icons.arrow_drop_down, color:Colors.black),
+                ]
+            )
+          ),
+
       ),
       elevation: 1,
       backgroundColor: Colors.white,
