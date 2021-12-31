@@ -25,8 +25,17 @@ import Alamofire
               result(self.receiveBatteryLevel())
 
           case "test" :
-
-              result("tt")
+              let url = "https://jsonplaceholder.typicode.com/posts"
+              AF.request(url, method: .get).responseJSON{ response in
+                  switch response.result {
+                  case .success(let jsonData):
+                      result(jsonData)
+                  default :
+                      result("failed")
+                  }
+                  
+              }
+              
           default :
               result(FlutterMethodNotImplemented)
           }

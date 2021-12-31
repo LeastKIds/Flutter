@@ -24,8 +24,10 @@ class _MyHomePageState extends State<MyHomePage> {
       //iOS
       final arguments = {'name': 'test'};
       try {
-        final int result = await platform.invokeMethod('getBatteryLevel', arguments);
-        batteryLevel = 'Battery level at $result % .';
+        final List aa = await platform.invokeMethod('test');
+        print(aa[0]);
+        // final int result = await platform.invokeMethod('getBatteryLevel', arguments);
+        // batteryLevel = 'Battery level at $result % .';
       } on PlatformException catch (e) {
         batteryLevel = "Failed to get battery level: '${e.message}'.";
       }
@@ -36,9 +38,9 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
 
-    setState(() {
-      _batteryLevel = batteryLevel;
-    });
+    // setState(() {
+    //   _batteryLevel = batteryLevel;
+    // });
   }
 
   @override
